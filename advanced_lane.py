@@ -120,21 +120,27 @@ def detect_curved_lanes(image: np.ndarray) -> tuple:
         left_fit = np.polyfit(lefty, leftx, 2)
         right_fit = np.polyfit(righty, rightx, 2)
         
-        left_fitx_raw = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
-        right_fitx_raw = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
+        left_fitx = left_fit[0]*ploty**2 + left_fit[1]*ploty + left_fit[2]
+        right_fitx = right_fit[0]*ploty**2 + right_fit[1]*ploty + right_fit[2]
         
-        # Cari garis tengah lengkungan dari pantulan lampu (ini akan meliuk mengikuti jalan!)
-        center_fitx = (left_fitx_raw + right_fitx_raw) / 2.0
+        mean_width = np.mean(right_fitx - left_fitx)
         
-        # Ekpansi (lebarkan) garis tengah tersebut ke pinggir kiri dan kanan
-        # agar membentuk jalan yang sangat lebar tapi tetap melengkung!
-        left_fitx = center_fitx - (width * 0.45)
-        right_fitx = center_fitx + (width * 0.45)
-        
+        if mean_width < width * 0.4:
+            # Karena unwarp memperbesar ukuran secara drastis di bagian bawah,
+            # kita tidak boleh memakai width * 0.3 di gambar warped (karena akan jadi layar penuh saat di-unwarp).
+            center_fitx = (left_fitx + right_fitx) / 2.0
+            
+            # Geser sedikit ke kiri sesuai permintaan
+            center_fitx = center_fitx - (width * 0.05)
+            
+            # Perlebar dengan nilai yang jauh lebih kecil, misal 12% ke kiri dan 8% ke kanan dari center,
+            # (karena pantulan basah biasanya ada di agak kanan jalan, jadi kiri jalan lebih lebar).
+            left_fitx = center_fitx - (width * 0.12)
+            right_fitx = center_fitx + (width * 0.08)
+            
     else:
-        # Fallback lurus ke kiri/kanan mentok agar FULL JALAN jika gelap total
-        left_fitx = np.ones_like(ploty) * 0
-        right_fitx = np.ones_like(ploty) * width
+        left_fitx = np.ones_like(ploty) * (width * 0.4)
+        right_fitx = np.ones_like(ploty) * (width * 0.6)
         
     # ============================================================
     # STEP 5: Kembalikan proyeksi ke gambar asli (Unwarp)
