@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Panel — LaneVision</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="control-page">
+    <!-- Navigation -->
+    <nav class="navbar" id="mainNav">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="/" style="text-decoration:none;">
+                    <span class="logo-text">LaneVision</span>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/#features" class="nav-link">Documentation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="control-wrapper">
+        <main class="main-content">
+            <div class="page-header">
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    <span>System Ready</span>
+                </div>
+                <h1>Control Panel</h1>
+                <p>Upload an image, adjust enhancement parameters, and view the results.</p>
+            </div>
+
+            <div id="errorBox" class="error-message" style="display: none;"></div>
+
+            <div class="upload-section">
+                <h2>Image Upload</h2>
+                <div class="upload-area">
+                    <div class="drag-drop-zone" id="dropZone">
+                        <div class="upload-icon">↑</div>
+                        <h2>Drag & Drop Image</h2>
+                        <p>Supported formats: PNG, JPG, JPEG, TIFF (Max 10MB)</p>
+                        <button type="button" class="browse-btn" onclick="document.getElementById('fileInput').click()">Browse Files</button>
+                        <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.tiff" style="display: none;">
+                    </div>
+
+                    <div class="preview-container" id="previewContainer" style="display: none;">
+                        <h3>Preview</h3>
+                        <img id="imagePreview" src="" alt="Preview">
+                        <p id="fileName" class="filename"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="parameters-section">
+                <h2>Enhancement Settings</h2>
+                <div class="parameters-container">
+                    <div class="parameter-group">
+                        <div class="param-header">
+                            <label for="contrastSlider">Contrast Factor</label>
+                            <span class="info-icon" title="Brightness enhancement level (1-100)">?</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="contrastSlider" min="1" max="100" value="45" class="slider">
+                            <span class="slider-value" id="contrastValue">45</span>
+                        </div>
+                    </div>
+
+                    <div class="parameter-group">
+                        <div class="param-header">
+                            <label for="noiseSlider">Noise Reduction</label>
+                            <span class="info-icon" title="Noise filter strength (0-10)">?</span>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="noiseSlider" min="0" max="10" step="0.1" value="4.0" class="slider">
+                            <span class="slider-value" id="noiseValue">4.0</span>
+                        </div>
+                    </div>
+
+                    <div class="parameter-group">
+                        <div class="param-header">
+                            <label for="baselineSelect">Baseline Model</label>
+                        </div>
+                        <select id="baselineSelect" class="select-input">
+                            <option value="standard">Standard YOLOv8</option>
+                            <option value="enhanced">Enhanced Retinex</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="enhance-btn" id="processBtn" onclick="enhanceImage()">Process Image</button>
+            </div>
+
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <h2>Processing Results</h2>
+                <div class="results-container">
+                    <div class="result-card">
+                        <h3>Original Image</h3>
+                        <img id="originalImage" src="" alt="Original">
+                    </div>
+                    <div class="result-card">
+                        <h3>Enhanced Image</h3>
+                        <img id="enhancedImage" src="" alt="Enhanced">
+                    </div>
+                    <div class="result-card">
+                        <h3>Lane Detection</h3>
+                        <img id="laneImage" src="" alt="Lane Detection">
+                    </div>    
+                </div>
+
+                <div class="metrics">
+                    <div class="metric">
+                        <span class="metric-label">Detection Confidence</span>
+                        <span class="metric-value" id="confidence">0%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Processing Time</span>
+                        <span class="metric-value" id="processingTime">0 ms</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">PSNR</span>
+                        <span class="metric-value" id="psnrValue">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Enhanced Entropy</span>
+                        <span class="metric-value" id="entropyEnhanced">0</span>
+                    </div>
+                </div>
+
+                <div class="histogram-container">
+                    <h3>Histogram Comparison</h3>
+                    <canvas id="histogramChart" width="600" height="300" style="width:100%; height:300px;"></canvas>
+                </div>
+
+                <div class="download-buttons">
+                    <a id="downloadEnhanced" class="download-btn" download>Download Enhanced Image</a>
+                    <a id="downloadLane" class="download-btn" download>Download Lane Detection</a>
+                </div>
+            </div>
+
+            <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processing your image...</p>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 LaneVision — All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/control.js') }}"></script>
+</body>
+</html>

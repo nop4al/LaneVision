@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaneVision — Lane Detection Enhancement for Low Light</title>
+    <meta name="description" content="Low-light image enhancement system for lane detection using Retinex and guided filtering.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="mainNav">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-text">LaneVision</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#pipeline" class="nav-link">Pipeline</a></li>
+                <li><a href="/control" class="nav-button">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Seeing Lanes<br>
+                    Through the<br>
+                    <span class="highlight">Darkness</span>
+                </h1>
+                <p class="hero-description">
+                    Retinex-based enhancement system with guided filtering to improve
+                    lane marking visibility under low-light conditions.
+                    Achieves 98% detection confidence in dark environments.
+                </p>
+                <div class="hero-buttons">
+                    <a href="/control" class="btn btn-primary">Start Processing</a>
+                    <a href="#features" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>98%</h3>
+                        <p>Confidence Rate</p>
+                    </div>
+                    <div class="stat">
+                        <h3>&lt;15ms</h3>
+                        <p>Processing Time</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="demo-card">
+                    <span class="demo-label">REC_FEB_01</span>
+                    <span class="confidence-badge">CONFIDENCE: 98%</span>
+                    <svg viewBox="0 0 400 300" class="demo-visualization">
+                        <rect width="400" height="300"/>
+                        
+                        <!-- Road surface subtle -->
+                        <polygon points="0,300 400,300 280,120 120,120" fill="#222240" opacity="0.5"/>
+                        
+                        <!-- Lane lines -->
+                        <line x1="80" y1="300" x2="150" y2="100" stroke="#e8a87c" stroke-width="2.5" stroke-dasharray="8,6"/>
+                        <line x1="320" y1="300" x2="250" y2="100" stroke="#e8a87c" stroke-width="2.5" stroke-dasharray="8,6"/>
+                        
+                        <!-- Center dashed line -->
+                        <line x1="200" y1="300" x2="200" y2="100" stroke="#555" stroke-width="1" stroke-dasharray="4,8"/>
+
+                        <!-- Metrics text -->
+                        <text x="12" y="22" fill="#7c7c8a" font-size="10" font-family="monospace">YM: 0.67 | FITS: 9.1 | LIE: 8.4</text>
+                        <text x="12" y="290" fill="#7c7c8a" font-size="9" font-family="monospace">Enhanced — Retinex + Guided Filter</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="capabilities" id="features">
+        <h2 class="section-title">Processing Pipeline</h2>
+        <p class="section-subtitle">Multi-stage enhancement for low-light image processing</p>
+        
+        <div class="features-grid" id="pipeline">
+            <div class="feature-card">
+                <h3>Retinex Enhancement</h3>
+                <p>
+                    Multi-stage pipeline that separates luminance from reflectance components.
+                    Guided filtering preserves critical edges while boosting signal
+                    in low-light regions.
+                </p>
+                <div class="pipeline">
+                    <div class="pipeline-step">
+                        <p class="step-label">Original</p>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="pipeline-step">
+                        <p class="step-label">Luminance</p>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="pipeline-step">
+                        <p class="step-label">Filter</p>
+                    </div>
+                    <span class="arrow">→</span>
+                    <div class="pipeline-step">
+                        <p class="step-label">Enhanced</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h3>Edge Preservation</h3>
+                <p>
+                    Guided filtering technique reduces noise in dark environments
+                    while maintaining the integrity of lane markings and road features.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Contrast Adjustment</h3>
+                <p>
+                    Adaptive contrast mapping stretches pixel values to reveal
+                    hidden features in challenging lighting conditions.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Process Your Images Now</h2>
+            <p>Enhance low-light ADAS footage with advanced image processing</p>
+            <a href="/control" class="btn btn-primary btn-large">Open Control Panel</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 LaneVision — All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
